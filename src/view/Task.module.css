@@ -1,0 +1,33 @@
+.TaskMain {
+	display: flex;
+	flex-direction: row;
+	flex: auto;
+
+
+}
+
+.TaskBody {
+	display: flex;
+	flex: auto;
+	background: rgba(200,30,150,.2);
+	border-width: 0px 0px 2px 0px;
+	border-style: solid;
+}
+
+.LImplied {
+
+}
+
+.notLImplied {
+	background: rgba(50,50,50);
+}
+
+.TaskData {
+	display: flex;
+	flex-direction: column;
+	/*flex: auto;*/
+	position: -webkit-sticky;
+	position: sticky;
+	left: 20px;
+}
+

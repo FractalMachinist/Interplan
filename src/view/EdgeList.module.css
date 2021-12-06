@@ -1,0 +1,36 @@
+.ELMain {
+	display: flex;
+	flex: auto;
+	flex-direction: column;
+}
+
+
+.EdgeMain {
+	display: flex;
+	flex: auto;
+}
+
+
+
+.Expanded {
+	display: flex;
+	flex: auto;
+	flex-direction: row;
+}
+
+.Retracted {
+	display: flex;
+	flex: 0;
+}
+
+.EdgeButtonDiv {
+	display: flex;
+	flex: 0;
+	flex-direction: column;
+}
+
+.EdgeButton {
+	display: flex;
+	flex: auto;
+	align-items: center;
+}
