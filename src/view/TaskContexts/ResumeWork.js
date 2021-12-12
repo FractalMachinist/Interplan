@@ -1,11 +1,11 @@
 import { usePropsDBVertState } from "../../viewModel/Subscription_Manager.js"
 
-export default function BeginWork({id}){
+export default function ResumeWork({id}){
 	const [, setProps] = usePropsDBVertState(id)
 
 	return <div>
-		<p>Ready to begin!</p>
-		<button onClick={(e)=>setProps({"WorkStatus":2})}>Begin!</button>
+		<p>Getting back at it?</p>
+		<button onClick={(e)=>setProps({"WorkStatus":2})}>Let's Go!</button>
 	</div>
 	
 }

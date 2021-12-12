@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+// import { useState, useEffect, useRef } from "react";
 
 // import { useRelDBState, usePropsDBState, useDBConstructor } from "./Subscription_Manager.js"
 
-import { PropsDBLookup_Latest, PropsDBAssign, PropsDBListenerFactory } from "../model/Props_M.js"
-import { RelDBLookup, RelDBAssign, RelDBListenerFactory } from "../model/Rel_M.js"
+// import { PropsDBLookup_Latest, PropsDBAssign, PropsDBListenerFactory } from "../model/Props_M.js"
+// import { RelDBLookup, RelDBAssign, RelDBListenerFactory } from "../model/Rel_M.js"
 
-import { TreeDBLookup, TreeDBListenerFactory } from "../model/Tree_M.js"
+// import { TreeDBLookup, TreeDBListenerFactory } from "../model/Tree_M.js"
 
 // I want to wrap RelDBState and PropsDBState in an interpreter
 // which will convert them into the objects required for a Task state machine
@@ -31,10 +31,20 @@ export function Task_DeriveStatus(props, tree){
 		Stati.push("NeedsExpanded")
 	} else if(!tree.AbsolutelyImplied){
 		Stati.push("NotAbsImplied");
-	} else if(tree.HasUnmetDependencies){
+	} else if(tree.HasUnmetDependencies.length){
 		Stati.push("HasUnmetDependencies")
-	} else if(props.WorkStatus !== 2){
-		Stati.push(props.WorkStatus ? "WorkInProgress" : "WorkWaiting")
+	} else if(props.WorkStatus !== 3){
+		switch (props.WorkStatus){
+			case 0:
+				Stati.push("WorkWaiting")
+				break;
+			case 1:
+				Stati.push("WorkPaused")
+				break;
+			case 2:
+				Stati.push("WorkInProgress")
+				break;
+		}
 	} else {
 		Stati.push("_EndReviewStatus")
 	}

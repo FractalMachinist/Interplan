@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useRelDBState, useTreeDBState, usePropsDBState } from "../../viewModel/Subscription_Manager.js"
+import { useTreeDBState } from "../../viewModel/Subscription_Manager.js"
 
 export default function JustifyTaskImplication({id}){
-	const [tree_props, _] = useTreeDBState(id)
+	const [tree_props, ] = useTreeDBState(id)
 
 	if(tree_props.AbsolutelyImplied){
 		return <p>This task is Absolutely Implied!</p>
