@@ -1,180 +1,133 @@
-import { useState, useEffect, useRef } from "react";
+import { Transaction, DB_Listener_Factory } from "./Neo4j_Backer.js"
 
-function _randomText(){
-	return (Math.random() + 1).toString(36).substring(2)
-}
-
-function _randomBool(){
-	return Math.random() > 0.5
-}
-
-function _randomWorkStatus(){
-	// return Math.floor(Math.random()*3)
-	return 0
-}
-
-function _randomReviewConclusion(){
-	// -1, 0, 1 ==>> Fail, not complete, Pass
-	// return Math.floor((Math.random()*3)-1)
-	return 0
-}
-
-function _randomNTimestamps(num_timestamps){
-	let diffs = [...Array(num_timestamps).keys()].map(num => Date.now() - Math.floor(Math.random()*1000));
-	// diffs.sort();
-	return diffs
-
-}
-
-function _randomHistory(_randomPropFn) {
-	let num_steps = Math.floor(Math.random()*10) + 1
-	return _randomNTimestamps(num_steps).map(timestamp => {return {timestamp: timestamp, prop: _randomPropFn()}})
-
-}
-
-
-const _fakeProps = {
-	// ReviewersApproved: _randomBool,
-	ReviewersApproved: ()=>{return false},
-	// Expanded: _randomBool,
-	Expanded: ()=>{return false},
-	WorkStatus: _randomWorkStatus,
-	Title: () => "Must " + _randomText(),
-	//Active: _randomBool,
-	Active: ()=>{return true},
-	LocalSequence: () => Math.floor(Math.random()*10 - 3),
-	Conclusion: _randomReviewConclusion,
-	// ReviewText: _randomText
-	ReviewText: ()=>'',
-}
-
-function _fake_novel_entry(){
-	return Object.fromEntries(
-		Object.entries(_fakeProps).map(
-			([prop_name, rand_prop_fn]) => [prop_name, _randomHistory(rand_prop_fn)]
-		)
+export async function PropsDBVertLookup(id){
+	const C_Lookup = `MATCH (n {id: "${id}"}) RETURN n{.*} as props`
+	return Transaction(
+		C_Lookup,
+		"PropsDBVertLookup"
 	)
+
 }
 
-////////////////////////////////////
+export async function PropsDBVertLookup_Latest(id){
+	return PropsDBVertLookup(id)
+	// const prop_map = await PropsDBLookup(id);
 
-function LatestUpdate(prop_history){
-	return prop_history.reduce((prev_latest, current_latest) => {
-		return (current_latest.timestamp > prev_latest.timestamp) ? current_latest : prev_latest
-	}, {timestamp: 0, prop: "FAILURE IN LatestUpdate"}).prop
-}
-
-export async function PropsDBLookup(id){
-	const props_id = "props_" + id.toString();
-
-	if(!window.localStorage.getItem(props_id)) {
-		console.log("Generating some new history")
-		window.localStorage.setItem(props_id, JSON.stringify(_fake_novel_entry()))
-	}
-
-	return JSON.parse(window.localStorage.getItem(props_id))
-}
-
-export async function PropsDBLookup_Latest(id){
-	const prop_map = await PropsDBLookup(id);
-
-	return Object.fromEntries(
-		Object.entries(prop_map).map(
-			([prop_name, prop_history]) => [prop_name, LatestUpdate(prop_history)]
-		)
-	)	
+	// return Object.fromEntries(
+	// 	Object.entries(prop_map).map(
+	// 		([prop_name, prop_history]) => [prop_name, LatestUpdate(prop_history)]
+	// 	)
+	// )	
 }
 
 
 
-export async function PropsDBSingleLookup(id, prop_name){
-	const prop_map = await PropsDBLookup(id);
+export async function PropsDBVertSingleLookup(id, prop_name){
+	const prop_map = await PropsDBVertLookup(id);
 	return prop_map[prop_name]
 }
 
-export async function PropsDBSingleLookup_Latest(id, prop_name){
-	const prop_map = await PropsDBLookup_Latest(id);
+export async function PropsDBVertSingleLookup_Latest(id, prop_name){
+	const prop_map = await PropsDBVertLookup_Latest(id);
 	return prop_map[prop_name]
 }
 
 
 
-export async function PropsDBAssign(id, new_props){
-	// console.log("fake DB assign props", id, new_props)
-	const props_id = "props_" + id.toString();
-	var records = await PropsDBLookup(id);
+export async function PropsDBVertAssign(id, new_props){
+	const C_Assign = `MATCH (n {id: "${id}"}) SET n += $new_props`
 
-	// console.log("PropsDBAssign records:", records)
-
-	const now = Date.now()
-
-	const new_records = Object.fromEntries(Object.entries(new_props).map(([prop_name, new_entry]) => {
-		return [prop_name, {timestamp: now, prop: new_entry}]
-	}))
-
-	Object.entries(new_records).map(([prop_name, new_record]) => {
-		// console.log("DB Prop Assign on name", prop_name)
-		records[prop_name].push(new_record)
-		return null
+	Transaction(
+		C_Assign,
+		"PropsDBVertAssign",
+		{"new_props":new_props},
+		"Write",
+		false
+	).then((result)=>{
+		const event = new CustomEvent(`interplan_PropsDB_Update`, {detail: {key: id, delta: new_props}})
+		document.dispatchEvent(event)	
+		return result
 	})
 
-	window.localStorage.setItem(props_id, JSON.stringify(records))
-
-	// Construct an event to trigger redraws on this same page
-	const event = new CustomEvent(`interplan_PropsDB_Update`, {detail: {key: id, delta:new_records}})
-	document.dispatchEvent(event)
 }
 
 
 
+//-----------------------------------------------------
+export async function PropsDBEdgeLookup(id){
+	const C_Lookup = `MATCH ()-[n {id: "${id}"}]->() RETURN n{.*} as props`
+	return Transaction(
+		C_Lookup,
+		"PropsDBEdgeLookup"
+	)
 
-/////////// Should these be a part of the Model, or the ViewModel?
+	// const props_id = "props_" + id.toString();
 
+	// if(!window.localStorage.getItem(props_id)) {
+	// 	console.log("Generating some new history")
+	// 	window.localStorage.setItem(props_id, JSON.stringify(_fake_novel_entry()))
+	// }
 
-function _standardize_events_wrapper(wrapped){
-	return (e) => {
-
-		const _from_storage = "key" in e
-		var change_notice;
-
-		if("detail" in e){
-			// It's a custom notification
-			change_notice = e.detail
-		} else {
-			// It's (probably) a storage notification
-			change_notice = {
-				key: e.key,
-				newValue: e.newValue,
-				oldValue: e.oldValue
-			}
-		}
-
-		return wrapped(change_notice)
-
-	}
+	// return JSON.parse(window.localStorage.getItem(props_id))
 }
 
-function _fake_db_listener_factory(ID, update_fn){
+export async function PropsDBEdgeLookup_Latest(id){
+	return PropsDBEdgeLookup(id)
+	// const prop_map = await PropsDBLookup(id);
 
-	return () => {
-		// console.log("Fake PropsDB Listener fac-prod running update fn", update_fn)
-
-		var wrapped_update_fn = _standardize_events_wrapper(update_fn);
-		var update_phrase = `interplan_PropsDB_Update`
-
-		window.addEventListener('storage', wrapped_update_fn)
-		document.addEventListener(update_phrase, wrapped_update_fn)
-
-
-		return () => {
-			console.log("CLEANING EVENT LISTENERS")
-			window.removeEventListener("storage", wrapped_update_fn);
-			document.removeEventListener(update_phrase, wrapped_update_fn);
-		}
-	}
+	// return Object.fromEntries(
+	// 	Object.entries(prop_map).map(
+	// 		([prop_name, prop_history]) => [prop_name, LatestUpdate(prop_history)]
+	// 	)
+	// )	
 }
+
+
+
+export async function PropsDBEdgeSingleLookup(id, prop_name){
+	const prop_map = await PropsDBEdgeLookup(id);
+	return prop_map[prop_name]
+}
+
+export async function PropsDBEdgeSingleLookup_Latest(id, prop_name){
+	const prop_map = await PropsDBEdgeLookup_Latest(id);
+	return prop_map[prop_name]
+}
+
+
+
+export async function PropsDBEdgeAssign(id, new_props){
+	const C_Assign = `MATCH ()-[n {id: "${id}"}]->() SET n += $new_props`
+
+	Transaction(
+		C_Assign,
+		"PropsDBEdgeAssign",
+		{"new_props":new_props},
+		"Write",
+		false
+	).then((result)=>{
+		const event = new CustomEvent(`interplan_PropsDB_Update`, {detail: {key: id, delta: new_props}})
+		document.dispatchEvent(event)	
+		return result
+	})
+
+}
+
+
 
 export function PropsDBListenerFactory(ID, update_fn) {
-	return _fake_db_listener_factory(ID, update_fn)
+	return () => {
+
+		var update_phrase = `interplan_PropsDB_Update`
+
+		document.addEventListener(update_phrase, update_fn)
+		
+		const clear_db_listener = DB_Listener_Factory(update_fn);
+
+		return () => {
+			document.removeEventListener(update_phrase, update_fn);
+			clear_db_listener()
+		}
+	}
 
 }

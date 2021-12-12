@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 
-import { useRelDBState, useTreeDBState, usePropsDBState } from "../../viewModel/Subscription_Manager.js"
+import { useRelDBOutVState, useTreeDBState, usePropsDBState } from "../../viewModel/Subscription_Manager.js"
 
 
 export default function Review({id, editable}){
-	const [reviewer_ID, kindly_do_not] = useRelDBState(id);
+	const [reviewer_ID, kindly_do_not] = useRelDBOutVState(id);
 	const [props, setProps] = usePropsDBState(id);
 
 

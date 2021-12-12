@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
-import { useRelDBState, useTreeDBState, usePropsDBState } from "../../viewModel/Subscription_Manager.js"
+import { usePropsDBVertState } from "../../viewModel/Subscription_Manager.js"
 
 export default function FinishWork({id}){
-	const [props, setProps] = usePropsDBState(id)
+	const [, setProps] = usePropsDBVertState(id)
 
 	return <div>
 		<p>How's it going?</p>
-		<button onClick={(e)=>setProps({"WorkStatus":2})}>Done</button>
+		<button onClick={(e)=>setProps({"WorkStatus":3})}>Done</button>
+		<button onClick={(e)=>setProps({"WorkStatus":1})}>Taking a Break</button>
 	</div>
 	
 }

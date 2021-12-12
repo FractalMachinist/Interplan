@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
 import Task from "./Task.js"
-// import { EdgeOutboundVertIDGrabOnce } from "../viewModel/Edge_VM.js"
-import { useRelDBState, useTreeDBState, usePropsDBState } from "../viewModel/Subscription_Manager.js"
+import { useRelDBOutVState, usePropsDBEdgeState, useTreeDBState } from "../viewModel/Subscription_Manager.js"
 
 import styles from "./EdgeList.module.css"
 
 function Edge({id}) {
-	const [outboundVertID, setReactOutboundIDs] = useRelDBState(id)
-	const [edgeProps, setEdgeProps] = usePropsDBState(id)
+	const [outboundVertID, ] = useRelDBOutVState(id)
+	const [edgeProps, setEdgeProps] = usePropsDBEdgeState(id)
+
+
+	// if(typeof outboundVertID === 'string'){
+		// console.debug(`${id} Edge with outboundVertID:`, outboundVertID)
+	// }
 
 	return <div className={styles.EdgeMain}>
 				{/*<p>Edge w/ ID {id}</p>*/}
@@ -17,7 +21,7 @@ function Edge({id}) {
 					{!edgeProps.Active ? (<button className={styles.EdgeButton} onClick={(e) => setEdgeProps({Active:  true})}>+</button>) : null}
 					{/*<button className={styles.EdgeButton} onClick={() => forwardProps({status: 2})}>2</button>*/}
 				</div>
-				{outboundVertID ? <Task id={outboundVertID} locallyImplied={edgeProps.Active}/> : null}
+				{typeof outboundVertID === 'string' ? <Task id={outboundVertID} locallyImplied={edgeProps.Active}/> : null}
 			</div>
 
 
@@ -25,13 +29,12 @@ function Edge({id}) {
 }
 
 
-function EdgeList({ids}) {
-	const [GUI_Expanded, setGUI_Expanded] = useState(true);
+function EdgeList({ids, default_expand_EdgeList=false}) {
+	const [GUI_Expanded, setGUI_Expanded] = useState(false);
 
-
-
-	let ExpansionElem;
-
+	useEffect(() => {
+		setGUI_Expanded(default_expand_EdgeList)
+	}, [default_expand_EdgeList])
 
 	return GUI_Expanded ? (
 			<div className={styles.Expanded}>
