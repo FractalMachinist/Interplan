@@ -1,0 +1,46 @@
+.ContextList {
+    display:flex;
+    flex:0;
+    flex-direction: column;
+}
+
+.ContextTitle {
+    padding:0px;
+    margin:0px;
+    color:rgb(var(--gm-color));
+}
+
+.ActiveContext .ContextTitle {
+    color:black;
+}
+
+.ContextShutter {
+    composes: glassmorphism from "../common.module.css";
+    text-align: left;
+    margin:0;
+    padding:5px;
+}
+
+.ContextPane {
+    composes: glassmorphism from "../common.module.css";
+    padding:0;
+    margin:4px 0px;
+    display:flex;
+    flex:auto;
+    flex-direction:column;
+
+    --gm-color: 82, 82, 82
+}
+
+.ActiveContext {
+    composes: ContextPane;
+    --gm-color: 255, 255, 255
+}
+
+
+.WithinContext {
+    display:flex;
+    flex:auto;
+    flex-direction: column;
+    padding:10px;
+}

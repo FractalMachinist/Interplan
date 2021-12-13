@@ -2,30 +2,66 @@
 	display: flex;
 	flex-direction: row;
 	flex: auto;
+	--gm-color: 255,255,255;
 }
 
 .TaskBody {
+	composes: BridgeLeft from "./common.module.css";
 	display: flex;
 	flex: auto;
-	background: rgba(200,30,150,.2);
-	border-width: 0px 0px 2px 0px;
-	border-style: solid;
+	background: rgba(var(--gm-color), 0.4);
+	box-shadow: -2px 3px 1px 0 rgb(var(--gm-color));
+	outline-color: rgb(var(--gm-color));
 }
 
-.LImplied {
-
-}
+/* Task Implication Status */
 
 .notLImplied {
-	background: rgba(50,50,50);
+	background: rgba(50,50,50, 0.4);
+	box-shadow: -2px 3px 1px 0 rgb(126, 126, 126);
+	outline-color: rgb(126, 126, 126);
 }
 
+/* Task Completion Status */
+
+.NeedsExpanded {
+}
+
+.WorkWaiting {
+	/* RED */
+	--gm-color: 230, 12, 12;
+
+}
+
+.WorkPaused {
+	/* ORANGE */
+	--gm-color: 231, 90, 9;
+}
+
+.WorkInProgress {
+	/* ELECTRIC YELLOW */
+	--gm-color: 253, 249, 0;
+}
+
+._EndReviewStatus {
+	/* GREEN */
+	--gm-color: 37, 233, 11;
+}
+
+/* Contents of a task */
+
 .TaskData {
+	margin:20px;
 	display: flex;
 	flex-direction: column;
 	/*flex: auto;*/
 	position: -webkit-sticky;
 	position: sticky;
 	left: 20px;
+	top: 20px;
 }
 
+.TaskDataMinimized {
+	composes: TaskData;
+	margin:0;
+}

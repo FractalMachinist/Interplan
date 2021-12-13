@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import SelectSearch, { fuzzySearch } from 'react-select-search'
 
+import styles from "./TCStyle.module.css"
+
 import { TreeDBGetValidNewDependencies, TreeDBListenerFactory } from "../../model/Tree_M.js"
 import { PropsDBVertAssign, PropsDBVertSingleLookup_Latest } from "../../model/Props_M.js"
 import { RelDBAddChild } from "../../model/Rel_M.js"
@@ -92,7 +94,7 @@ export default function ExpandTasks({id}){
 	}
 
 
-	return 	<div>
+	return 	<div className={styles.WithinContext}>
 				<b>Select new Dependency:</b>
 				<SelectSearch
 					value={selection}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Task_DeriveStatus } from "../../viewModel/Task_VM.js"
 import { useTreeDBState, usePropsDBVertState } from "../../viewModel/Subscription_Manager.js"
 
+import styles from "./TCStyle.module.css"
 
 import ExpandTasks from "./ExpandTasks.js"
 // import JustifyTaskImplication from "./JustifyTaskImplication.js"
@@ -28,13 +29,13 @@ function SingleContextWrapper({id, Title, Component, InitialExpanded, disabled=f
 	const [expanded, setExpanded] = useState(false)
 	// console.log(`${id} SingleContextWrapper with expanded ${expanded}, InitialExpanded ${InitialExpanded}`)
 
-	useEffect(() => {
-		setExpanded(InitialExpanded)
-	}, [InitialExpanded])
+	// useEffect(() => {
+	// 	setExpanded(InitialExpanded)
+	// }, [InitialExpanded])
 
-	return <div>
-		<button disabled={disabled} onClick={(e)=>{setExpanded(!expanded)}}>
-			<p>{Title}</p>
+	return <div className={InitialExpanded?styles.ActiveContext : styles.ContextPane}>
+		<button disabled={disabled} onClick={(e)=>{setExpanded(!expanded)}} className={styles.ContextShutter}>
+			<h4 className={styles.ContextTitle}>{Title}</h4>
 		</button>
 		{expanded && !disabled ? <Component id={id}/> : null}
 	</div>
@@ -56,7 +57,7 @@ export default function TaskContextWrapper({id}){
 
 
 	// return typeof id === 'string' ? <ExpandTasks id={id}/> : null
-	return <div>
+	return <div className={styles.ContextList}>
 		{typeof id === 'string' ? Object.entries(StateDict).map(([key, arg_pack]) => {
 			const [title, strict, Component] = arg_pack
 			const status_met = task_status.includes(key)
