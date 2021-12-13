@@ -1,5 +1,7 @@
 .RV {
 	/* composes: pane from "./view/common.module.css"; */
-	max-width: 100%;
-	overflow:auto;
+	max-width: 100vh;
+	max-height:100vh;
+	overflow-x:auto;
+	overflow-y:auto;
 }

@@ -10,9 +10,11 @@ export default function JustifyUnmetDependencies({id}){
 
 	if(Array.isArray(tree_props.HasUnmetDependencies) && tree_props.HasUnmetDependencies.length){
 		return <div className={styles.WithinContext}>
-			{tree_props.HasUnmetDependencies.map((dep_id)=>{
-				return <TaskTitle key={dep_id} id={dep_id} editable={false}/>
-			})}
+			<div className={styles.Scroll}>
+				{tree_props.HasUnmetDependencies.map((dep_id)=>{
+					return <TaskTitle key={dep_id} id={dep_id} editable={false}/>
+				})}
+			</div>
 		</div>
 	} else {
 		return <div className={styles.WithinContext}>

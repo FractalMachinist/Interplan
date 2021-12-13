@@ -9,8 +9,8 @@
 }
 
 .Highlight {
-	color: rgb(169, 255, 136);
-	--gm-color: 169, 255, 136;
+	color: rgb(136, 251, 255);
+	--gm-color: 136, 251, 255;
 }
 
 .TitleLink {
@@ -36,6 +36,7 @@
 .TitleTextEditable {
 	composes: TitleText;
 	composes: BridgeBoth from "./common.module.css";
+	flex:1;
 
 }
 
@@ -60,12 +61,11 @@
 
 .LocalRootSet {
 	composes: BridgeLeft from "./common.module.css";
-	color: black;
+	color:black;
 
 }
 
 .LocalRootUnset {
 	composes: LocalRootSet;
-	-webkit-text-stroke-width:2px;
-	-webkit-text-stroke-color: rgb(var(--gm-color));
+	color: rgb(var(--gm-color));
 }

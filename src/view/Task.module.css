@@ -1,14 +1,14 @@
 .TaskAndChildren {
 	display: flex;
 	flex-direction: row;
-	flex: 1;
+	flex: 1 1 100%;
 	--gm-color: 255,255,255;
 }
 
 .TaskBody {
 	composes: BridgeLeft from "./common.module.css";
 	display: flex;
-	flex: auto;
+	flex: 1;
 	background: rgba(var(--gm-color), 0.4);
 	box-shadow: -2px 3px 1px 0 rgb(var(--gm-color));
 	outline-color: rgb(var(--gm-color));
@@ -52,13 +52,15 @@
 
 .TaskData {
 	margin:5px;
+	height:min-content;
 	display: flex;
 	flex-direction: column;
 	/*flex: auto;*/
-	/* position: -webkit-sticky;
+	position: -webkit-sticky;
 	position: sticky;
-	left: 5px;
-	top: 5px; */
+	top:5px;
+	left:5px;
+
 }
 
 .TaskDataMinimized {

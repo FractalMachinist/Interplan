@@ -1,3 +1,7 @@
+:root{
+	--edge-button-min-width: 30px;
+}
+
 .ELMain {
 	display: flex;
 	flex: 0;
@@ -18,13 +22,13 @@
 
 .EdgeMain {
 	display: flex;
-	flex: 0;
+	flex: 2;
 	flex-direction: row;
 }
 
 .EdgeMain_Min {
 	composes: EdgeMain;
-	flex-grow: 2;
+	flex-grow:0;
 }
 
 
@@ -42,8 +46,9 @@
 }
 
 .EdgeButtonDiv {
+	min-width: var(--edge-button-min-width);
 	display: flex;
-	flex: 0;
+	flex: 0 0 min-content;
 	flex-direction: column;
 }
 

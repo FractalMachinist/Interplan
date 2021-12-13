@@ -5,8 +5,6 @@ import RootTask from './RootTask.js'
 import Home from "./Home.js"
 import TaskHome from "./TaskHome.js"
 
-// import { _build_random_tree } from "./model/_random_model.js"
-
 function App() {
   return (
     <div className={styles.App}>
