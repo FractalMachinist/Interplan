@@ -13,14 +13,15 @@
 .EdgeBase {
 	composes: BridgeLeft from "./common.module.css";
 	display: flex;
+	min-width:5px;
 }
 
 .EdgeMain {
 	display: flex;
-	flex: auto;
-	padding: 2px;
-	padding-right:0px;
+	flex: 0;
+	flex-direction: row;
 }
+
 .EdgeMain_Min {
 	composes: EdgeMain;
 	flex-grow: 2;
@@ -33,15 +34,11 @@
 	width:min-content;
 	flex: auto;
 	flex-direction: column;
-	margin-right:0px;
-	padding-right:0px;
 }
 
 .Retracted {
 	composes: EdgeBase;
 	flex: 0;
-	margin:0;
-	padding:0;
 }
 
 .EdgeButtonDiv {
@@ -54,32 +51,27 @@
 	composes: BridgeRight from "./common.module.css";
 	flex:auto;
 	text-align: center;
-	padding: 10px;
-	z-index: 1;
-	margin-top:1px;
-	margin-bottom:1px;
 }
 
 .EdgeTaskButton {
-	margin-right:0px;
-	padding-right:10px;
-	padding-left:8px;
+	z-index: 1;
 }
 
 /* Enable and Disable an edge */
 .EdgeButtonEnable {
 	composes: EdgeButton;
 	composes: EdgeTaskButton;
-	background: rgba(255, 255, 255, 0.2);
-	box-shadow: -2px 1px 1px 0 rgba(126, 126, 126, 0.5);
-	outline-color: rgba(126, 126, 126, 0.5);
+	--gm-color: 255,255,255;
+	color:rgb(var(--gm-color));
 }
 
 .EdgeButtonDisable {
 	composes: EdgeButton;
 	composes: EdgeTaskButton;
-	background: rgba(50,50,50, 0.2);
-	box-shadow: -2px 1px 1px 0 rgba(255,255,255, 0.5);
+	--gm-color: 126, 126, 126;
+	color:rgb(var(--gm-color));
+	/* background: rgba(50,50,50, 0.2);
+	outline-color: rgba(50,50,50, 0.2); */
 }
 
 

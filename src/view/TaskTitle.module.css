@@ -6,7 +6,11 @@
 
 .EditTitle {
 	composes: BridgeRight from "./common.module.css";
-	margin:1px;
+}
+
+.Highlight {
+	color: rgb(169, 255, 136);
+	--gm-color: 169, 255, 136;
 }
 
 .TitleLink {
@@ -18,25 +22,31 @@
 	background-color: unset;
 }
 
+
+
 .TitleText {
-	composes: glassmorphism from "./common.module.css";
+	composes: BridgeRight from "./common.module.css";
 	color:rgb(0,0,0);
 	width:max-content;
 	display:flex;
 	flex:1;
-	margin-left:0px;
-	margin-right:0px;
-	padding:10px;
+
 }
 
 .TitleTextEditable {
 	composes: TitleText;
-	composes: BridgeLeft from "./common.module.css"
+	composes: BridgeBoth from "./common.module.css";
+
 }
 
 .TitleTextEdit{
 	composes: TitleTextEditable;
 	background-color:rgba(255,255,255,0.9);
+}
+
+.BRight {
+	composes: BridgeRight from "./common.module.css";
+	composes: TitleText;
 }
 
 .Minimized {
@@ -46,4 +56,16 @@
 	box-shadow:none;
 	margin: 3px;
 	color:grey
+}
+
+.LocalRootSet {
+	composes: BridgeLeft from "./common.module.css";
+	color: black;
+
+}
+
+.LocalRootUnset {
+	composes: LocalRootSet;
+	-webkit-text-stroke-width:2px;
+	-webkit-text-stroke-color: rgb(var(--gm-color));
 }

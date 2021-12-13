@@ -1,8 +1,8 @@
 .glassmorphism {
 	/* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
-	backdrop-filter: blur( 3px );
+	backdrop-filter: blur( 10px );
 
-	-webkit-backdrop-filter: blur( 3px );
+	-webkit-backdrop-filter: blur( 10px );
 
 	
 
@@ -11,47 +11,82 @@
 
 	border-radius:10px;
 
-	box-shadow: -2px 3px 1px 0 rgb(var(--gm-color));
+	box-shadow: -2px 3px 1px 0 rgba(var(--gm-color), 1);
 	/* filter: drop-shadow(-2px 3px 0px rgba(90, 90, 90, 0.8)); */
 
 
-
+	outline-offset: -2px;
 	outline-width: 2px;
 	outline-style: solid;
 	outline-color: rgba(var(--gm-color), 0.9 );
 	border-style:none;
 
-	padding: 3px 3px 3px 3px;
-	margin: 3px 3px 3px 3px;
+
+	/* border:rgba(var(--gm-color), 0.9) solid 1px; */
+	--gm-padding: 8px;
+	--gm-margin: 3px;
+	padding: var(--gm-padding);
+	margin: var(--gm-margin);
+
+	--gm-base-z-index: 1;
+	--gm-z-index: var(--gm-base-z-index);
+
+	z-index: calc(var(--gm-z-index));
+
+	/* box-sizing: border-box; */
 }
+
 
 .pane {
 	composes: glassmorphism;
-	outline-width: 1px 1px 6px 4px;
+	/* outline-width: 1px 1px 6px 4px;
 	padding-right:0px;
 	margin-right:0px;
-	box-shadow: -3px 5px 1px 0 rgb(var(--gm-color));
+	box-shadow: -3px 5px 1px 0 rgb(var(--gm-color)); */
 }
 
 .BridgeRight {
 	composes: glassmorphism;
-	outline-style:none;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius:0px;
+	margin-right:0px;
+	padding-right: calc(var(--gm-padding) + 1px);
+	--gm-z-index: var(--gm-base-z-index) + 1;
+
+	/* outline-style:none;
 	border-style: solid;
 	border-color: rgba(var(--gm-color), 0.9);
+	border-width:1px;
 
 	border-right-width: 0px;
 	border-top-right-radius:0px;
 	border-bottom-right-radius:0px;
 	margin-right:0px;
-	box-shadow: -2px 1px 1px 0px rgb(var(--gm-color));
+	box-shadow: -2px 1px 1px 0px rgb(var(--gm-color)); */
 }
 
 .BridgeLeft {
 	composes: glassmorphism;
-	border-left-width: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius:0px;
+	margin-left:-2px;
+
+	--gm-z-index: var(--gm-base-z-index) - 1;
+	/* border-left-width: 0px;
 	border-top-left-radius:0px;
 	border-bottom-left-radius:0px;
 	margin-left: 0px;
-	box-shadow: -1.5px 3px 1px 0px rgb(var(--gm-color));
+	box-shadow: -2px 1px 1px 0px rgb(var(--gm-color)); */
 
+}
+
+.BridgeBoth {
+	composes: glassmorphism;
+	border-radius: 0px;
+	margin-left:-2px;
+
+	padding-right: calc(var(--gm-padding) + 1px);
+	margin-right:0px;
+
+	--gm-z-index: var(--gm-base-z-index);
 }

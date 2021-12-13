@@ -5,9 +5,11 @@
 }
 
 .ContextTitle {
-    padding:0px;
-    margin:0px;
     color:rgb(var(--gm-color));
+    margin-left:5px;
+    margin-right:5px;
+    margin-block-end: unset;
+	margin-block-start: unset;
 }
 
 .ActiveContext .ContextTitle {
@@ -16,25 +18,25 @@
 
 .ContextShutter {
     composes: glassmorphism from "../common.module.css";
+    margin:0px;
     text-align: left;
-    margin:0;
-    padding:5px;
 }
 
 .ContextPane {
     composes: glassmorphism from "../common.module.css";
-    padding:0;
-    margin:4px 0px;
+
     display:flex;
     flex:auto;
     flex-direction:column;
 
-    --gm-color: 82, 82, 82
+    padding:0px;
+
+    --gm-color: 82, 82, 82;
 }
 
 .ActiveContext {
     composes: ContextPane;
-    --gm-color: 255, 255, 255
+    --gm-color: 255, 255, 255;
 }
 
 

@@ -1,7 +1,26 @@
 const uri = `bolt://${window.location.hostname}:30687`
-const reverse_proxy_uri = `bolt://${window.location.hostname}:7687`
+// const reverse_proxy_uri = `bolt://${window.location.hostname}:7687`
+
+
 const user = "neo4j"
-const password = "zach"
+
+const get_password = async (prompt="DB Password:") => {
+	var password = window.localStorage.getItem("INTERPLAN_PASS");
+	var pass_from_storage = true;
+	if(password === null){
+		password = await window.prompt(prompt)
+		pass_from_storage = false;
+	}
+	return [password, pass_from_storage]
+}
+
+const store_password = async (password) => {
+	window.localStorage.setItem("INTERPLAN_PASS", password)
+}
+
+const clear_password = async () => {
+	window.localStorage.removeItem("INTERPLAN_PASS")
+}
 
 async function Startup_Guarantee_Constraints(tmp_driver){
 	tmp_driver.session().run("CREATE CONSTRAINT unique_vert_id IF NOT EXISTS FOR (vert:IDSPACE) REQUIRE vert.id IS UNIQUE").then((result)=>{
@@ -9,25 +28,40 @@ async function Startup_Guarantee_Constraints(tmp_driver){
 })
 }
 
-var Driver = new Promise(resolve => {
-	var neo4j_script = document.querySelector("#neo4j-driver");
-	neo4j_script.addEventListener('load', () => {
-		console.debug("Neo4J Driver Loaded")
-		var tmp_driver = window.neo4j.driver(uri, window.neo4j.auth.basic(user, password))
-		tmp_driver.verifyConnectivity().then((result)=>{
-			// Successful Connection
-			resolve(tmp_driver)
-			Startup_Guarantee_Constraints(tmp_driver)
-		}).catch((error)=>{
-			// Try the reverse_proxy uri
-			var rp_driver = window.neo4j.driver(reverse_proxy_uri, window.neo4j.auth.basic(user, password))
-			rp_driver.verifyConnectivity().then((result)=>{
-				resolve(rp_driver)
-				Startup_Guarantee_Constraints(tmp_driver)
-			})
-		})
+const get_driver = async (resolve, retry_on_failure=true) => {
+	console.debug("Neo4J Driver Loaded")
+	const [pass, pass_from_storage] = await get_password(retry_on_failure ? undefined:"Stored password failed\nDB Password:");
+	var tmp_driver = window.neo4j.driver(uri, window.neo4j.auth.basic(user, pass))
+	tmp_driver.verifyConnectivity().then((result)=>{
+		// Successful Connection
+		resolve(tmp_driver)
+		store_password(pass)
+		Startup_Guarantee_Constraints(tmp_driver)
+	}).catch((error)=>{
+		if(pass_from_storage && retry_on_failure){
+			// It's possible the stored password was wrong
+			// Arrange to get a new password and try again
+			clear_password();
+			return get_driver(resolve, false);
+		} else {
+			// We can get here by:
+			//     - Failing to authenticate from a fresh password
+			//     - Trying a stored password, failing, and failing on a fresh password
+			// The page shouldn't continue loading, and might throw errors
+			console.error("Default neo4j uri failed", error, error.code)
+			console.log(Object.entries(error))
+			window.alert(`Neo4j Driver failed on given URI: ${uri}`)
+			clear_password();
+			throw "Default neo4j uri failed"
+		}
+
 		
 	})
+}
+
+var Driver = new Promise(resolve => {
+	var neo4j_script = document.querySelector("#neo4j-driver");
+	neo4j_script.addEventListener('load', () => get_driver(resolve));
 });
 
 

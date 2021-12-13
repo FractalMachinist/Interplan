@@ -7,6 +7,13 @@ import { Transaction, DB_Listener_Factory } from "./Neo4j_Backer.js"
 
 */
 
+export async function TreeDBGetAllLocalRoot(){
+	const C_GetAllLocalRoot = `MATCH (task:Task {LocalRoot: true}) return COLLECT(task.id)`
+	return Transaction(
+		C_GetAllLocalRoot,
+		"TreeDBGetAllLocalRoot"
+	)
+}
 
 export async function TreeDBTaskAbsoluteImplied(id){
 	const C_TaskAbsolutelyImplied = `MATCH (task {id: "${id}"}) OPTIONAL MATCH (task)<-[:DependsOn*]-(Root {AbsoluteRoot: true}) RETURN Root IS NOT NULL OR task.AbsoluteRoot as AbsolutelyImplied`

@@ -56,6 +56,8 @@ function TaskBody({id, locallyImplied}){
 function ChildEdges({id, default_expand_EdgeList=false}){
 	const [edgeIDs,] = useRelDBOutEState(id)
 
+	// console.debug(`${id} Re-rendering Child Edges`, edgeIDs)
+
 
 	if (edgeIDs instanceof Array && edgeIDs.length > 0) {
 		return <EdgeList ids={edgeIDs} default_expand_EdgeList={default_expand_EdgeList ? undefined : false}/>

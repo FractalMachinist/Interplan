@@ -1,7 +1,7 @@
 .TaskAndChildren {
 	display: flex;
 	flex-direction: row;
-	flex: auto;
+	flex: 1;
 	--gm-color: 255,255,255;
 }
 
@@ -51,14 +51,14 @@
 /* Contents of a task */
 
 .TaskData {
-	margin:20px;
+	margin:5px;
 	display: flex;
 	flex-direction: column;
 	/*flex: auto;*/
-	position: -webkit-sticky;
+	/* position: -webkit-sticky;
 	position: sticky;
-	left: 20px;
-	top: 20px;
+	left: 5px;
+	top: 5px; */
 }
 
 .TaskDataMinimized {
