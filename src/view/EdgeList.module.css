@@ -21,6 +21,10 @@
 	padding: 2px;
 	padding-right:0px;
 }
+.EdgeMain_Min {
+	composes: EdgeMain;
+	flex-grow: 2;
+}
 
 
 

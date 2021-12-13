@@ -14,7 +14,7 @@ function Edge({id}) {
 		// console.debug(`${id} Edge with outboundVertID:`, outboundVertID)
 	// }
 
-	return <div className={styles.EdgeMain}>
+	return <div className={edgeProps.Active ? styles.EdgeMain : styles.EdgeMain_Min}>
 				{/*<p>Edge w/ ID {id}</p>*/}
 				{/*{PropsElem}*/}
 				<div className={styles.EdgeButtonDiv}>

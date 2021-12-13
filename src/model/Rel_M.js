@@ -13,7 +13,9 @@ export async function RelDBLookupOutE(id){
 		C_Return,
 		"RelDBLookupOutE"
 	).then((out_edges)=>{
-		return new Set(out_edges)
+		const oe = Array.from(new Set(out_edges))
+		// console.log("RelDBLookupOutE oe:", oe)
+		return oe
 	})
 }
 
