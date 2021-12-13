@@ -8,7 +8,18 @@ import TaskTitle from "./TaskTitle.js"
 import TaskContextWrapper from "./TaskContexts/TaskContextWrapper.js"
 
 import styles from "./Task.module.css"
+import common_styles from "./common.module.css"
 
+const StatusStyles = {
+	"NeedsExpanded":styles.NeedsExpanded,
+	"NotAbsImplied": styles.notLImplied,
+	"HasUnmetDependencies": styles.NeedsExpanded,
+	"WorkWaiting": styles.WorkWaiting,
+	"WorkPaused": styles.WorkPaused,
+	"WorkInProgress": styles.WorkInProgress,
+	"_EndReviewStatus": styles._EndReviewStatus,
+
+}
 
 function TaskBody({id, locallyImplied}){
 	const [props, setProps] = usePropsDBVertState(id)
@@ -24,10 +35,19 @@ function TaskBody({id, locallyImplied}){
 		
 	}, [props, tree_props])
 
+	var multiStyle = [styles.TaskBody]
 
-	return <div className={[styles.TaskBody, locallyImplied ? styles.LImplied : styles.notLImplied].join(' ')}>
-		<div className={styles.TaskData}>
-			<TaskTitle id={id}/>
+	if(locallyImplied){
+		task_status.map((status)=>{
+			multiStyle.push(StatusStyles[status])
+		})
+	} else {
+		multiStyle.push(styles.notLImplied)
+	}
+
+	return <div className={multiStyle.join(' ')}>
+		<div className={locallyImplied ? styles.TaskData : styles.TaskDataMinimized}>
+			<TaskTitle id={id} minimized={!locallyImplied}/>
 			{locallyImplied ? <TaskContextWrapper id={id}/> : null }
 		</div>
 	</div>
@@ -46,7 +66,7 @@ function ChildEdges({id, default_expand_EdgeList}){
 
 
 function Task({id, locallyImplied}) {
-	return <div className={styles.TaskAndChildren}>
+	return <div className={[styles.TaskAndChildren].join(' ')}>
 				<TaskBody id={id} locallyImplied={locallyImplied}/>
 				{locallyImplied ? <ChildEdges id={id}/> : null}
 			</div>

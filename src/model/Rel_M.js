@@ -84,7 +84,7 @@ export async function RelDBAddChild(parent_vert, edge_label, child_vert=undefine
 	} else { // We already have a Child Vert, we just need to reference it
 		// Check if the given child vert is a valid dependency
 
-		if(await TreeDBCheckDependency(parent_vert, child_vert)){
+		if(await TreeDBCheckDependency(child_vert, parent_vert)){
 			const message = `RelDBAddChild Will Not create a dependency loop between ${parent_vert} and ${child_vert}`
 			window.alert(message)
 			throw message

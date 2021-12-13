@@ -1,7 +1,41 @@
+:root {
+	--bg-1: rgb(216, 255, 209);
+	--bg-2: rgb(255, 199, 199);
+	height:max-content;
+
+}
+
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgb(66, 66, 66);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: rgb(199, 199, 199);
+}
+
+
 .App {
-	background-color: grey;
+	/* background-color: grey; */
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
+	min-height:100%;
+	max-height:max-content;
+
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background: rgba(0,0,0,0);
+	background-repeat:repeat;
+	background: -webkit-linear-gradient( to left top, var(--bg-1), var(--bg-2));
+	background: -moz-linear-gradient( to left top, var(--bg-1), var(--bg-2));
+	background: -ms-linear-gradient( to left top, var(--bg-1), var(--bg-2));
+	background: -o-linear-gradient( to left top, var(--bg-1), var(--bg-2));
+	background: linear-gradient( to left top, var(--bg-1), var(--bg-2));
 }
