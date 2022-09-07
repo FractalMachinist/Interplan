@@ -15,5 +15,5 @@ This repo functions as a portfolio entry.
 - Neo4J Database
 
 # Front-end Design
-This screenshot shows the current display language of Interplan, taken during my capstone project at WGU.
+This screenshot shows the current display language of Interplan, taken during my final semester of university.
 ![UI Example](interplan_UI_example.png)
