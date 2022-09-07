@@ -7,7 +7,7 @@ Interplan is currently a prototype tool for my personal use. There are foundatio
 This repo functions as a portfolio entry.
 
 # Back-End Design
-Model-View-Viewmodel React app, backed by a Neo4J database.
+[Model-View-Viewmodel](/src) React app, backed by a Neo4J database, deployed with [kubernetes](/kubernetes).
 
 
 # Front-end Design
