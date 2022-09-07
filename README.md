@@ -6,7 +6,7 @@ Interplan is currently a prototype tool for my personal use. There are foundatio
 
 This repo functions as a portfolio entry.
 
-# Conceptual Layout
+# Back-End Design
 - React Webpage
 - Javascript Interplan API in the browser
   - Busy-waiting for updates
