@@ -1,0 +1,141 @@
+:root{
+	--edge-button-min-width: 30px;
+}
+
+.ELMain {
+	display: flex;
+	flex: 0;
+	flex-direction: row;
+}
+
+.ELTasks {
+	display: flex;
+	flex: auto;
+	flex-direction: column;
+}
+
+.EdgeBase {
+	composes: BridgeLeft from "./common.module.css";
+	composes: pane from "./common.module.css";
+	display: flex;
+	min-width:5px;
+}
+
+.EdgeMain {
+	display: flex;
+	flex: 2;
+	flex-direction: row;
+	padding-top: 5px;
+}
+
+.Expanded .EdgeMain:first-child {
+	padding-top: 0px;
+}
+
+.EdgeMain_Min {
+	composes: EdgeMain;
+	flex-grow:0.01;
+}
+
+.Expanded {
+	composes: EdgeBase;
+	width:min-content;
+	flex: auto;
+	flex-direction: column;
+}
+
+.Expanded_justOneChild {
+	composes: Expanded;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.Retracted {
+	composes: EdgeBase;
+	flex: 0;
+}
+
+.EdgeButtonDiv {
+	min-width: var(--edge-button-min-width);
+	display: flex;
+	flex: 0 0 min-content;
+	flex-direction: column;
+}
+
+.EdgeButton {
+	composes: BridgeRight from "./common.module.css";
+	flex:auto;
+	text-align: center;
+	line-height:30%;
+	/* width:min-content; */
+}
+
+.EdgeTaskButton {
+	z-index: 1;
+}
+
+.EdgeTaskButton:not(.EdgeTaskButton:first-child){
+	/* Not the first in a line of Edge Task Buttons */
+	border-top-left-radius: 0px;
+	margin-top:0px;
+}
+
+.EdgeTaskButton:not(.EdgeTaskButton:last-child){
+	/* Not the last in a line of Edge Task Buttons */
+	border-bottom-left-radius: 0px;
+	margin-bottom:0px;
+}
+
+/* Enable and Disable an edge */
+.EdgeButtonEnable {
+	composes: EdgeButton;
+	composes: EdgeTaskButton;
+	--gm-color: 255,255,255;
+	color:rgb(var(--gm-color));
+}
+
+.EdgeButtonDisable {
+	composes: EdgeButton;
+	composes: EdgeTaskButton;
+	--gm-color: 126, 126, 126;
+	color:rgb(var(--gm-color));
+	/* background: rgba(50,50,50, 0.2);
+	outline-color: rgba(50,50,50, 0.2); */
+}
+
+.EdgeButtonDelete {
+	composes: EdgeButton;
+	composes: EdgeTaskButton;
+	--gm-color: 50, 50, 50;
+	color:rgb(var(--gm-color));
+	/* background: rgba(50,50,50, 0.2);
+	outline-color: rgba(50,50,50, 0.2); */
+}
+
+
+/* Show and hide an Edge List */
+
+.EdgeListShow_Button {
+	composes: EdgeButton;
+	background: rgba(160, 238, 116, 0.6);
+}
+
+.EdgeListHide_Button {
+	composes: EdgeButton;
+	background: rgba(255, 70, 57, 0.418);
+}
+
+.BAD {
+	height:100%;
+	max-height:15vh;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.UGLY {
+	flex: 1;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}

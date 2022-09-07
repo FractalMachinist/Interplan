@@ -1,0 +1,101 @@
+:root {
+	--gm-padding-original: 8px;
+	--gm-padding-t: var(--gm-padding-original);
+	--gm-padding-r: var(--gm-padding-original);
+	--gm-padding-b: var(--gm-padding-original);
+	--gm-padding-l: var(--gm-padding-original);
+
+	--gm-margin-original: 3px;
+	--gm-margin-t: var(--gm-margin-original);
+	--gm-margin-r: var(--gm-margin-original);
+	--gm-margin-b: var(--gm-margin-original);
+	--gm-margin-l: var(--gm-margin-original);
+
+	--gm-base-z-index: 1;
+	--gm-z-index: var(--gm-base-z-index);
+
+	--gm-bs-alpha-original: 0.5;
+	--gm-bg-alpha-original: 0.2;
+	--gm-ol-alpha-original: 0.9;
+
+	--gm-bs-alpha: var(--gm-bs-alpha-original);
+	--gm-bg-alpha: var(--gm-bg-alpha-original);
+	--gm-ol-alpha: var(--gm-ol-alpha-original);
+}
+
+.glassmorphism {
+	/* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+	/* backdrop-filter: blur( 10px ); */
+
+	/* -webkit-backdrop-filter: blur( 10px ); */
+
+	
+
+	background: rgba(var(--gm-color), var(--gm-bg-alpha));
+
+
+	border-radius:10px;
+
+
+	
+	box-shadow: -2px 3px 1px 0 rgba(var(--gm-color), var(--gm-bs-alpha));
+	/* filter: drop-shadow(-2px 3px 0px rgba(90, 90, 90, 0.8)); */
+
+
+	outline-offset: -2px;
+	outline-width: 2px;
+	outline-style: solid;
+	outline-color: rgba(var(--gm-color), var(--gm-ol-alpha) );
+	border-style:none;
+
+
+	/* border:rgba(var(--gm-color), 0.9) solid 1px; */
+
+	padding: var(--gm-padding-t) var(--gm-padding-r) var(--gm-padding-b) var(--gm-padding-l);
+	margin:  var(--gm-margin-t) var(--gm-margin-r) var(--gm-margin-b) var(--gm-margin-l);
+
+
+
+	z-index: calc(var(--gm-z-index));
+
+	/* box-sizing: border-box; */
+}
+
+
+.pane {
+	composes: glassmorphism;
+	/* outline-width: 1px 1px 6px 4px; */
+	padding-right:0px;
+	margin-right:0px;
+	/* box-shadow: -3px 5px 1px 0 rgb(var(--gm-color)); */
+}
+
+.BridgeRight {
+	composes: glassmorphism;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius:0px;
+	--gm-margin-r: 0px;
+	--gm-padding-r: calc(var(--gm-padding-original) + 1px);
+	--gm-z-index: var(--gm-base-z-index) + 1;
+
+}
+
+.BridgeLeft {
+	composes: glassmorphism;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius:0px;
+	--gm-margin-l: -1px;
+
+	--gm-z-index: var(--gm-base-z-index) - 1;
+
+}
+
+.BridgeBoth {
+	composes: glassmorphism;
+	border-radius: 0px;
+	--gm-margin-l: -2px;
+	--gm-margin-r:0px;
+	--gm-padding-r: calc(var(--gm-padding-original) + 1px);
+
+	--gm-z-index: var(--gm-base-z-index);
+}

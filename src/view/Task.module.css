@@ -1,0 +1,166 @@
+.TaskAndChildren {
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 100%;
+	--gm-color: 255,255,255;
+	--gm-margin-t: 0px;
+	--gm-margin-b: 0px;
+	--gm-margin-l: 0px;
+	--gm-margin-r: 0px;
+
+	/* --gm-padding-t: 0px; */
+	/* --gm-padding-r: 0px; */
+	/* --gm-padding-b: 0px; */
+	/* --gm-padding-l: 0px; */
+}
+
+.TaskAndChildren:hover {
+}
+
+.TaskAndChildren_enforceHover{
+}
+
+
+.TaskBody {
+	composes: BridgeLeft from "./common.module.css";
+	display: flex;
+	flex: 1;
+	background: rgba(var(--gm-color), 0.2);
+	box-shadow: -2px 3px 1px 0 rgba(var(--gm-color), var(--gm-bs-alpha));
+	outline-color: rgb(var(--gm-color));
+	padding:0px;
+
+}
+
+/* .TaskAndChildren:hover>.TaskBody {
+} */
+
+/* Task Implication Status */
+
+.notLImplied {
+	background: rgba(50,50,50, 0.4);
+	box-shadow: -2px 3px 1px 0 rgba(126, 126, 126, var(--gm-bs-alpha));
+	outline-color: rgb(126, 126, 126);
+}
+
+/* Task Completion Status */
+
+.NeedsExpanded {
+}
+
+.WorkWaiting {
+	/* RED */
+	--gm-color: 230, 12, 12;
+
+}
+
+.WorkPaused {
+	/* ORANGE */
+	--gm-color: 231, 90, 9;
+}
+
+.WorkInProgress {
+	/* ELECTRIC YELLOW */
+	--gm-color: 253, 249, 0;
+}
+
+._EndReviewStatus {
+	/* GREEN */
+	--gm-color: 37, 233, 11;
+}
+
+/* Contents of a task */
+
+.TaskData {
+	/* margin:5px; */
+	height:min-content;
+	display: flex;
+	flex-direction: column;
+	position: -webkit-sticky;
+	position: sticky;
+	/* top:5px;
+	left:5px; */
+	top:0px;
+	left:0px;
+
+}
+
+.TaskDataMinimized {
+	composes: TaskData;
+	margin:0;
+	align-self:center;
+}
+
+@value EdgeMain from "EdgeList.module.css";
+
+.EdgeMain:hover>.TaskAndChildren>.TaskBody>.TaskData>.ContextList,
+.TaskAndChildren:hover>.TaskBody>.TaskData>.ContextList,
+.TaskAndChildren_enforceHover>.TaskBody>.TaskData>.ContextList{
+	opacity:100%;
+	visibility: visible;
+	height:auto;
+	transition: height 0.15s;
+}
+
+.ContextList {
+	/* 
+    display:flex;
+    flex:0;
+    flex-direction: column; */
+	/* overflow-y:hidden; */
+	opacity:0%;
+	visibility: hidden;
+	height:0;
+	transition: height 0.15s;
+}
+
+.ContextTitle {
+    color:rgb(var(--gm-color));
+    margin-left:5px;
+    margin-right:5px;
+    margin-block-end: unset;
+	margin-block-start: unset;
+}
+
+.ActiveContext .ContextTitle {
+    color:black;
+}
+
+.ContextShutter {
+    composes: BridgeLeft from "./common.module.css";
+    margin:0px;
+    text-align: left;
+}
+
+.ContextPane {
+    composes: BridgeLeft from "./common.module.css";
+
+    display:flex;
+    flex:auto;
+    flex-direction:column;
+
+    padding:0px;
+	margin-bottom:2px;
+	margin-top:2px;
+
+    --gm-color: 82, 82, 82;
+}
+
+.ActiveContext {
+    composes: ContextPane;
+    --gm-color: 255, 255, 255;
+}
+
+
+.WithinContext {
+    display:flex;
+    flex:auto;
+    flex-direction: column;
+    padding:2px 10px 2px 10px;
+}
+
+.Scroll {
+    z-index:0;
+    max-height:50vh;
+    overflow-y:auto;
+}

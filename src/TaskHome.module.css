@@ -1,0 +1,9 @@
+.TaskHome {
+    --gm-color: 255, 255, 255;
+    composes: glassmorphism from "./view/common.module.css";
+    padding:10px;
+}
+
+.header {
+    margin-top:10px;
+}

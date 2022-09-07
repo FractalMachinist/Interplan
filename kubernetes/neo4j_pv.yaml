@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: interplan-prod
+  name: neo4j-prod-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+      # persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/srv/pv/interplan-prod/neo4j-db"

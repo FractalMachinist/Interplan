@@ -1,0 +1,85 @@
+.Title{
+	/* composes: glassmorphism from "./common.module.css"; */
+	display:flex;
+	flex-direction: row;
+	--tt-color: rgba(0, 0, 0, 0.747);
+}
+
+@value EdgeMain from "EdgeList.module.css";
+/* @value TaskAndChildren from "Task.module.css";
+@value TaskBody from "Task.module.css";
+@value TaskData from "Task.module.css"; */
+@value TaskAndChildren, TaskBody, TaskData from "Task.module.css";
+
+.TaskAndChildren:hover>div>.TaskData>.Title,
+.EdgeMain:hover>.TaskAndChildren>div>.TaskData>.Title {
+	--tt-color: black;
+	--gm-bg-alpha: 0.5;
+}
+.EditTitle {
+	/* composes: BridgeRight from "./common.module.css"; */
+	composes: BridgeBoth from "./common.module.css";
+}
+
+.Highlight {
+	color: rgb(136, 251, 255);
+	--gm-color: 136, 251, 255;
+}
+
+.TitleLink {
+	display: flex;
+	flex:1;
+	margin:0;
+	padding:0;
+	text-decoration: none;
+	background-color: unset;
+}
+
+
+
+.TitleText {
+	composes: BridgeRight from "./common.module.css";
+	color: var(--tt-color);
+	width:max-content;
+	display:flex;
+	flex:1;
+
+}
+
+.TitleTextEditable {
+	composes: TitleText;
+	composes: BridgeBoth from "./common.module.css";
+	flex:1;
+
+}
+
+.TitleTextEdit{
+	composes: TitleTextEditable;
+	background-color:rgba(255,255,255,0.9);
+}
+
+.BRight {
+	composes: BridgeRight from "./common.module.css";
+	composes: TitleText;
+}
+
+.Minimized {
+	width:max-content;
+	background:none;
+	outline:none;
+	border:none;
+	box-shadow:none;
+	margin: 3px;
+	color:rgb(80, 80, 80)
+}
+
+.LocalRootSet {
+	composes: BridgeLeft from "./common.module.css";
+	color:black;
+
+}
+
+.LocalRootUnset {
+	composes: LocalRootSet;
+	color: rgb(var(--gm-color));
+}
