@@ -7,12 +7,8 @@ Interplan is currently a prototype tool for my personal use. There are foundatio
 This repo functions as a portfolio entry.
 
 # Back-End Design
-- React Webpage
-- Javascript Interplan API in the browser
-  - Busy-waiting for updates
-  - Forwards updates to relevant listeners
-- Interplan API generates Cypher queries in the browser
-- Neo4J Database
+Model-View-Viewmodel React app, backed by a Neo4J database.
+
 
 # Front-end Design
 This screenshot shows the current display language of Interplan, taken during my final semester of university.
